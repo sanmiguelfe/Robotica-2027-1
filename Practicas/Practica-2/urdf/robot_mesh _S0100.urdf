@@ -1,0 +1,141 @@
+
+<robot name="so100">
+
+<!--Información de eslabones-->
+
+<link name="base_link">
+    <visual>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        <geometry>
+            <mesh filename="../meshes/Base.STL" scale="1 1 1"/>
+        </geometry>
+        <material name="negro">
+            <color rgba="0.1 0.1 0.1 1.0"/>
+        </material>
+    </visual>
+</link>
+
+<link name="shoulder_link">
+    <visual>
+        <origin xyz="0.0 0.0 0.0" rpy="1.57079633 0.0 0.0"/>
+        <geometry>
+            <mesh filename="../meshes/Shoulder_Rotation_Pitch.STL" scale="1 1 1"/>
+        </geometry>
+        <material name="rojo">
+            <color rgba="1.0 0.0 0.0 1.0"/>
+        </material>
+    </visual>
+</link>
+
+<link name="upper_arm_link">
+    <visual>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 1.57079633 0.0"/>
+        <geometry>
+            <mesh filename="../meshes/Upper_Arm.STL" scale="1 1 1"/>
+        </geometry>
+        <material name="azul">
+            <color rgba="0.0 0.3 1.0 1.0"/>
+        </material>
+    </visual>
+</link>
+
+<link name="lower_arm_link">
+    <visual>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 1.57079633 0.0"/>
+        <geometry>
+            <mesh filename="../meshes/Lower_Arm.STL" scale="1 1 1"/>
+        </geometry>
+        <material name="verde">
+            <color rgba="0.0 0.8 0.2 1.0"/>
+        </material>
+    </visual>
+</link>
+
+<link name="wrist_link">
+    <visual>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 1.57079633 0.0"/>
+        <geometry>
+            <mesh filename="../meshes/Wrist_Pitch_Roll.STL" scale="1 1 1"/>
+        </geometry>
+        <material name="amarillo">
+            <color rgba="1.0 0.85 0.0 1.0"/>
+        </material>
+    </visual>
+</link>
+
+<link name="fixed_gripper_link">
+    <visual>
+        <origin xyz="0.0 0.0 0.0" rpy="1.57079633 0.0 0.0"/>
+        <geometry>
+            <mesh filename="../meshes/Fixed_Gripper.STL" scale="1 1 1"/>
+        </geometry>
+        <material name="morado">
+            <color rgba="0.6 0.1 0.9 1.0"/>
+        </material>
+    </visual>
+</link>
+
+<link name="moving_jaw_link">
+    <visual>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        <geometry>
+            <mesh filename="../meshes/Moving_Jaw.STL" scale="1 1 1"/>
+        </geometry>
+        <material name="naranja">
+            <color rgba="1.0 0.4 0.0 1.0"/>
+        </material>
+    </visual>
+</link>
+
+
+<!--Información de articulaciones-->
+
+<joint name="shoulder_joint" type="revolute">
+    <origin xyz="0.0 -0.045 0.016" rpy="0.0 0.0 0.0"/>
+    <parent link="base_link"/>
+    <child link="shoulder_link"/>
+    <axis xyz="0.0 0.0 1.0"/>
+    <limit lower="-1.96" upper="1.96" effort="1000" velocity="5.0"/>
+</joint>
+
+<joint name="upper_arm_joint" type="revolute">
+    <origin xyz="0.0 -0.0306 0.1025" rpy="0.0 -1.57079633 0.0"/>
+    <parent link="shoulder_link"/>
+    <child link="upper_arm_link"/>
+    <axis xyz="0.0 0.0 1.0"/>
+    <limit lower="-1.745" upper="1.745" effort="1000" velocity="5.0"/>
+</joint>
+
+<joint name="elbow_joint" type="revolute">
+    <origin xyz="0.028 0.11257 0.0" rpy="0.0 0.0 0.0"/>
+    <parent link="upper_arm_link"/>
+    <child link="lower_arm_link"/>
+    <axis xyz="0.0 0.0 1.0"/>
+    <limit lower="-1.5" upper="1.5" effort="1000" velocity="5.0"/>
+</joint>
+
+<joint name="wrist_pitch_joint" type="revolute">
+    <origin xyz="0.1349 0.0052 0.0" rpy="0.0 0.0 0.0"/>
+    <parent link="lower_arm_link"/>
+    <child link="wrist_link"/>
+    <axis xyz="0.0 0.0 1.0"/>
+    <limit lower="-1.658" upper="1.658" effort="1000" velocity="5.0"/>
+</joint>
+
+<joint name="wrist_roll_joint" type="revolute">
+    <origin xyz="0.00055 -0.0601 0.001088" rpy="-1.57079633 1.57079633 0.0"/>
+    <parent link="wrist_link"/>
+    <child link="fixed_gripper_link"/>
+    <axis xyz="0.0 0.0 1.0"/>
+    <limit lower="-2.75" upper="2.75" effort="1000" velocity="5.0"/>
+</joint>
+
+<joint name="gripper_joint" type="revolute">
+    <origin xyz="-0.020292 -0.0001 -0.024312" rpy="1.57079633 0.0 3.14159265"/>
+    <parent link="fixed_gripper_link"/>
+    <child link="moving_jaw_link"/>
+    <axis xyz="0.0 0.0 1.0"/>
+    <limit lower="-0.1792" upper="1.5708" effort="1000" velocity="5.0"/>
+</joint>
+
+</robot>
